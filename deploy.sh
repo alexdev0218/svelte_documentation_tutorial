@@ -12,7 +12,7 @@ git config --global --add safe.directory $REPO_DIR
 # Obtener los últimos cambios del repositorio
 echo "Actualizando el repositorio desde GitHub..."
 git fetch origin
-git reset --hard origin/master # o la rama principal que uses
+git reset --hard origin/main # o la rama principal que uses
 
 # Restablecer permisos ejecutables para el script
 chmod +x deploy.sh
