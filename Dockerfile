@@ -1,28 +1,34 @@
 # Etapa de construcción
 FROM node:22.6.0-alpine AS build
 
-# Establece el directorio de trabajo en la imagen
 WORKDIR /app
 
-# Copia los archivos del proyecto al contenedor
+# Copia los archivos necesarios
 COPY package*.json ./
+
+# Instala las dependencias
+RUN npm install
+
+# Copia el resto de los archivos del proyecto
 COPY . .
 
-# Instala las dependencias y construye la aplicación
-RUN npm install
+# Construye la aplicación
 RUN npm run build
 
 # Etapa de producción
-FROM nginx:stable-alpine3.20
+FROM node:22.6.0-alpine AS production
 
-# Copia los archivos construidos desde la etapa de construcción a la carpeta de Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+WORKDIR /app
 
-# Copia el archivo de configuración de Nginx si necesitas configuraciones personalizadas (opcional)
-# COPY nginx.conf /etc/nginx/nginx.conf
+# Copia solo los archivos necesarios para correr la aplicación
+COPY --from=build /app/build /app/build
+COPY package*.json .
 
-# Expone el puerto 80
-EXPOSE 80
+# Instala solo las dependencias necesarias para producción
+RUN npm install --omit=dev
 
-# Comando para ejecutar Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Exponer el puerto que utilizará la aplicación
+EXPOSE 3001
+
+# Comando para correr la aplicación
+CMD ["node", "build"]

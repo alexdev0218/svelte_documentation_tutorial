@@ -35,6 +35,8 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@sveltejs/adapter-node": "^5.2.2",
+		"@sveltejs/adapter-static": "^3.0.4",
 		"elizabot": "^0.0.3"
 	}
 }
