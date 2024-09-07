@@ -3,7 +3,6 @@
 	export let version;
 	export let speed;
 	export let website;
-
 	$: href = `https://www.npmjs.com/package/${name}`;
 </script>
 
