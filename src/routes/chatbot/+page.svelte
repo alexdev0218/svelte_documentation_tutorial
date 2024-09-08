@@ -1,8 +1,8 @@
-<script>
-	import Eliza from 'elizabot'; // Importa la librería Eliza
+<script lang="ts">
+	import Eliza from 'elizabot';
 	import { beforeUpdate, afterUpdate } from 'svelte';
 
-	let div;
+	let div: HTMLDivElement;
 	let autoscroll = false;
 
 	beforeUpdate(() => {
@@ -18,33 +18,30 @@
 		}
 	});
 
-	// Inicializa Eliza
 	const eliza = new Eliza();
-	const pause = (ms) => new Promise((fulfil) => setTimeout(fulfil, ms));
+	const pause = (ms?: number) => new Promise((fulfil) => setTimeout(fulfil, ms));
 
 	const typing = { author: 'eliza', text: '...' };
 
-	// Array para los comentarios del chat
-	let comments = [];
+	let comments: { author: string; text: string }[] = [];
 
-	// Manejo de la entrada del usuario
-	async function handleKeydown(event) {
-		if (event.key === 'Enter' && event.target.value) {
+	async function handleKeydown(event: KeyboardEvent) {
+		// Cast event.target to HTMLInputElement
+		const target = event.target as HTMLInputElement;
+		if (event.key === 'Enter' && target.value) {
 			const comment = {
 				author: 'user',
-				text: event.target.value
+				text: target.value
 			};
 
-			// Genera la respuesta de Eliza
 			const reply = {
 				author: 'eliza',
 				text: eliza.transform(comment.text)
 			};
 
-			event.target.value = '';
+			target.value = '';
 			comments = [...comments, comment];
 
-			// Añade un pequeño retraso para simular la escritura de Eliza
 			await pause(200 * (1 + Math.random()));
 			comments = [...comments, typing];
 
@@ -61,20 +58,17 @@
 				<h1>Eliza</h1>
 				<article class="eliza">
 					<span>{eliza.getInitial()}</span>
-					<!-- Mensaje de bienvenida de Eliza -->
 				</article>
 			</header>
 
 			{#each comments as comment}
 				<article class={comment.author}>
 					<span>{comment.text}</span>
-					<!-- Muestra los comentarios en el chat -->
 				</article>
 			{/each}
 		</div>
 
 		<input on:keydown={handleKeydown} placeholder="Type your message..." />
-		<!-- Entrada para los mensajes -->
 	</div>
 </div>
 

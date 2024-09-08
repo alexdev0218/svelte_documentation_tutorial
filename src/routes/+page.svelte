@@ -6,11 +6,14 @@
 	<li><a href="/stores">Stores</a></li>
 </ul>
 
+
 <style>
+
 	h1 {
 		color: #ff3e00;
 		text-align: center;
 		margin-bottom: 20px;
+		
 	}
 
 	ul {

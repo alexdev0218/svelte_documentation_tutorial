@@ -22,6 +22,6 @@ export const time = readable(new Date(), function start(set) {
 	};
 });
 
-const start = new Date();
+const start = new Date().getTime(); // Get the start time as a timestamp
 
-export const elapsed = derived(time, ($time) => Math.round(($time - start) / 1000));
+export const elapsed = derived(time, ($time) => Math.round(($time.getTime() - start) / 1000));

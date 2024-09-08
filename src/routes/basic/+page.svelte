@@ -12,7 +12,7 @@
 
 	onMount(() => {
 		const canvas = document.querySelector('canvas');
-		const context = canvas.getContext('2d');
+		const context = canvas != null ? canvas.getContext('2d') : null;
 
 		let frame = requestAnimationFrame(function loop(t) {
 			frame = requestAnimationFrame(loop);
@@ -38,7 +38,7 @@
 	let name = 'Alex';
 	let count = 0;
 	let numbers = [1, 2, 3, 4];
-	let colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink'];
+	let colors = ['red', 'blue', 'green', 'brown', 'purple', 'orange', 'pink'];
 	let selected = colors[0];
 	let things = [
 		{ id: 1, name: 'apple' },
@@ -127,6 +127,7 @@
 
 		event.preventDefault();
 
+		// @ts-ignore
 		const { selectionStart, selectionEnd, value } = this;
 		const selection = value.slice(selectionStart, selectionEnd);
 
@@ -308,7 +309,7 @@
 
 <style>
 	p {
-		color: goldenrod;
+		color: #ff6b4c;
 		font-family: 'Comic Sans MS', cursive;
 		font-size: 1.3em;
 	}
@@ -342,7 +343,7 @@
 	}
 
 	.div-pointer-move {
-		border: 1px blue solid;
+		border: 1px #ff3e00 solid;
 		height: 300px;
 		width: 300px;
 		padding: 20px;
